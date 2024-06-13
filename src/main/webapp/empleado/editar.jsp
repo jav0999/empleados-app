@@ -110,32 +110,44 @@
                                     <div class="card-body">
                                         <form action="editar" method="post">
                                             <div class="form-group">
+                                                <input type="hidden" name="id" class="form-control" id="id" value ="${sessionScope.useredit.id()}" ></input>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="hidden" name="codigoEmpleado" class="form-control" id="codigoEmpleado" value ="${sessionScope.useredit.codigoEmpleado()}" ></input>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="nombres">Nombres</label>
-                                                <input type="text" name="nombres" class="form-control" id="nombres"  >
+                                                <input type="text" name="nombres" class="form-control" id="nombres" value ="${sessionScope.useredit.nombres()}" ></input>
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellidoPat">Apellido Paterno</label>
-                                                <input type="text" name="apellidoPat" class="form-control" id="apellidoPat"  ">
+                                                <input type="text" name="apellidoPat" class="form-control" id="apellidoPat" value=${sessionScope.useredit.apellidoPat()} >
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellidoMat">Apellido Materno</label>
-                                                <input type="text" name="apellidoMat" class="form-control" id="apellidoMat"  >
+                                                <input type="text" name="apellidoMat" class="form-control" id="apellidoMat" value=${sessionScope.useredit.apellidoMat()} >
                                             </div>
+
                                             <div class="form-group">
                                                 <label for="idDepartamento">Departamento</label>
-                                                <input type="text" name="idDepartamento" class="form-control" id="idDepartamento"  >
+                                                <select name="idDepartamento" class="form-control" id="idDepartamento" value=${sessionScope.useredit.departamento()}>
+                                                    <c:forEach var="departamento" items="${departamentos}">
+                                                        <option value="${departamento.id()}" ${sessionScope.useredit.departamento() == departamento.id() ? 'selected="selected"' : '' }>${departamento.nombre()} </option>
+                                                    </c:forEach>
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="correo">Correo</label>
-                                                <input type="email" name="correo" class="form-control" id="correo"  placeholder="Ingresa un correo valido">
+                                                <input type="email" name="correo" class="form-control" id="correo"  placeholder="Ingresa un correo valido" value=${sessionScope.useredit.correo()}>
                                             </div>
                                             <div class="form-group">
                                                 <label for="salario">Salario</label>
-                                                <input type="number" name="salario" class="form-control" id="salario" >
+                                                <input type="number" name="salario" class="form-control" id="salario" value=${sessionScope.useredit.salario()}>
                                             </div>
                                             <div class="form-group">
                                                 <label for="fechaNacimiento">Fecha Nacimiento:</label>
-                                                <input type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento">
+                                                <input type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento" value=${sessionScope.useredit.fechaNacimiento().toString()}>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Editar</button>
                                         </form>

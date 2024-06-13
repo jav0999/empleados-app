@@ -7,6 +7,7 @@ import com.ez.sisemp.empleado.exception.EmailAlreadyInUseException;
 import com.ez.sisemp.empleado.exception.EmpleadosNotFoundException;
 import com.ez.sisemp.empleado.model.Empleado;
 import com.ez.sisemp.empleado.model.EmpleadoDashboard;
+import com.ez.sisemp.login.model.Usuario;
 import com.ez.sisemp.parametro.dao.ParametroDao;
 import com.ez.sisemp.shared.utils.EdadUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +34,15 @@ public class EmpleadoBusiness {
         validarCampos(empleado);
         try {
             empleadoDao.agregarEmpleado(empleado);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new EmailAlreadyInUseException(String.format("El correo %s ya se encuentra registrado", empleado.correo()));
+        }
+    }
+    public void editarEmpleado(Empleado empleado) throws SQLException, ClassNotFoundException {
+        empleado = new Empleado(empleado.id(),empleado.codigoEmpleado(), empleado.nombres(), empleado.apellidoPat(), empleado.apellidoMat(), empleado.idDepartamento(), empleado.correo(), empleado.salario(), empleado.fechaNacimiento());
+        validarCampos(empleado);
+        try {
+            empleadoDao.editarEmpleado(empleado);
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new EmailAlreadyInUseException(String.format("El correo %s ya se encuentra registrado", empleado.correo()));
         }
@@ -110,4 +120,8 @@ public class EmpleadoBusiness {
             throw new IllegalArgumentException("El salario del empleado no puede ser negativo");
         }
     }
+
+   /*public void editarEmpelado(String username, String password) throws SQLException, ClassNotFoundException {
+        return usuarioDao.login(username, password);
+    }*/
 }

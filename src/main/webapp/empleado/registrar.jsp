@@ -117,7 +117,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellidoPat">Apellido Paterno</label>
-                                                <input type="text" name="apellidoPat" class="form-control" id="apellidoPat"  ">
+                                                <input type="text" name="apellidoPat" class="form-control" id="apellidoPat"  >
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellidoMat">Apellido Materno</label>

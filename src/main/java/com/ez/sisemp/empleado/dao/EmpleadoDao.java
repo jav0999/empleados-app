@@ -1,5 +1,6 @@
 package com.ez.sisemp.empleado.dao;
 
+import com.ez.sisemp.empleado.config.JpaConfig;
 import com.ez.sisemp.empleado.entity.EmpleadoEntity;
 import com.ez.sisemp.empleado.model.Empleado;
 import com.ez.sisemp.shared.config.MySQLConnection;
@@ -38,11 +39,18 @@ public class EmpleadoDao{
             Select  e
             from EmpleadoEntity e
             """;
+  /*.setString(1, empleado.nombres());
+        preparedStatement.setString(2, empleado.apellidoPat());
+        preparedStatement.setString(3, empleado.apellidoMat());
+        preparedStatement.setInt(4, empleado.idDepartamento());
+        preparedStatement.setString(5, empleado.correo());
+        preparedStatement.setDate(6, new Date(empleado.fechaNacimiento().getTime()));
+        preparedStatement.setDouble(7, empleado.salario());*/
+    private static final String SQL_UPDATE_EMPLEADO = "UPDATE empleado SET nombres = ?, apellido_pat = ?, apellido_mat = ?, id_departamento = ?, correo = ?, salario = ? WHERE id = ?;";
+    private static final String SQL_DELETE_EMPLEADO = "UPDATE empleado set activo=0 WHERE id = ?;";
+    private static final String SQL_INSERT_EMPLEADO = "INSERT INTO empleado (codigo_empleado, nombres, apellido_pat, apellido_mat, id_departamento, correo, fecha_nacimiento, salario) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
-    private static String SQL_UPDATE_EMPLEADO = "UPDATE empleado SET nombres = ?, apellido_pat = ?, apellido_mat = ?, id_departamento = ?, correo = ?, salario = ? WHERE id = ?;";
-    private static String SQL_DELETE_EMPLEADO = "UPDATE empleado set activo=0 WHERE id = ?;";
-    private static String SQL_INSERT_EMPLEADO = "INSERT INTO empleado (codigo_empleado, nombres, apellido_pat, apellido_mat, id_departamento, correo, fecha_nacimiento, salario) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-    private static String SQL_GET_NEW_EMPLEADO_CODE = "SELECT CONCAT('EMP', LPAD(MAX(CAST(SUBSTRING(codigo_empleado, 4) AS UNSIGNED)) + 1, 4, '0')) AS next_emp_code FROM empleado;";
+    private static final String SQL_GET_NEW_EMPLEADO_CODE = "SELECT CONCAT('EMP', LPAD(MAX(CAST(SUBSTRING(codigo_empleado, 4) AS UNSIGNED)) + 1, 4, '0')) AS next_emp_code FROM empleado;";
 
     public List<Empleado> obtenerEmpleados() throws SQLException, ClassNotFoundException {
         List<Empleado> empleados = new ArrayList<>();
@@ -65,7 +73,16 @@ public class EmpleadoDao{
 
 
     public void editarEmpleado (Empleado empleado) throws SQLException, ClassNotFoundException {
-        //TODO: Implementar la edición de un empleado
+        PreparedStatement preparedStatement = MySQLConnection.getConnection()
+                .prepareStatement(SQL_UPDATE_EMPLEADO);
+        preparedStatement.setString(1, empleado.nombres());
+        preparedStatement.setString(2, empleado.apellidoPat());
+        preparedStatement.setString(3, empleado.apellidoMat());
+        preparedStatement.setInt(4, empleado.idDepartamento());
+        preparedStatement.setString(5, empleado.correo());
+        preparedStatement.setDouble(6, empleado.salario());
+        preparedStatement.setDouble(7, empleado.id());
+        preparedStatement.executeUpdate();
     }
 
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
@@ -89,6 +106,7 @@ public class EmpleadoDao{
         preparedStatement.executeUpdate();
     }
 
+
     private Empleado mapResultSetToEmpleado(ResultSet resultSet) throws SQLException {
         return new Empleado(resultSet.getInt("id"),
                 resultSet.getString("codigo_empleado"),
@@ -97,8 +115,9 @@ public class EmpleadoDao{
                 resultSet.getString("apellido_mat"),
                 resultSet.getString("departamento"),
                 resultSet.getString("correo"),
-                resultSet.getInt("edad"),
                 resultSet.getDouble("salario")
         );
     }
+
+
 }

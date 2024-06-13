@@ -11,7 +11,7 @@ public class UsuarioDao {
     private static final String SQL_GET_USER = "SELECT * FROM usuario WHERE nombre_usuario = ? AND contrasena = ?";
     public Usuario login(String username, String password) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = MySQLConnection.getConnection()
-                                                .prepareStatement(SQL_GET_USER);
+                .prepareStatement(SQL_GET_USER);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
         ResultSet resultSet = preparedStatement.executeQuery();
