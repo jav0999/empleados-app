@@ -37,7 +37,18 @@ public class EditarEmpleadoServlet extends HttpServlet {
 
         String id = req.getParameter("id");
         try {
+          //CODIGO PARA REDIRECCIONARLO A LOGIN
             HttpSession session = req.getSession();
+
+            if(null!=session.getAttribute("user")){
+                System.out.println("username is "+session.getAttribute("user").toString());
+
+            }
+            else{
+                resp.sendRedirect("/login/login.jsp");
+                return;
+            }
+            //CODIGO PARA REDIRECCIONARLO A LOGIN
             loadDepartamentos(req);
             Empleado empleado = business.editar(id);
             session.setAttribute("useredit", empleado);

@@ -64,9 +64,12 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <li>
+                                <a href="login/cerrarSesion" class="mr-2 d-none d-lg-inline text-gray-600">Cerrar Sesion</a>  </li>
                             <span class="mr-2 d-none d-lg-inline text-gray-600">
-                                Hola! ${sessionScope.user.primerNombre()}
+                                Holas! ${sessionScope.user.primerNombre()}
                             </span>
+
                             <img class="img-profile rounded-circle" src=${sessionScope.user.fotoPerfilBase64()} style="width:65" alt="profile photo">
 
                         </a>
