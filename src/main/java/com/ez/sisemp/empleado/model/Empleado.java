@@ -32,6 +32,7 @@ public record Empleado(
     public Empleado(Integer id,String codigoEmpleado, String nombres, String apellidoPat, String apellidoMat, int idDepartamento, String correo, double salario, Date fechaNacimiento) {
         this(id, codigoEmpleado, nombres, apellidoPat, apellidoMat, idDepartamento, null, correo, null, salario, fechaNacimiento);
     }
+
     public Empleado(Integer id, String codigoEmpleado, String nombres, String apellidoPat, String apellidoMat, String departamento, String correo, double salario) {
         this(id, codigoEmpleado, nombres, apellidoPat, apellidoMat, departamento, correo, 11, salario);
         System.out.println(id.toString());

@@ -39,13 +39,6 @@ public class EmpleadoDao{
             Select  e
             from EmpleadoEntity e
             """;
-  /*.setString(1, empleado.nombres());
-        preparedStatement.setString(2, empleado.apellidoPat());
-        preparedStatement.setString(3, empleado.apellidoMat());
-        preparedStatement.setInt(4, empleado.idDepartamento());
-        preparedStatement.setString(5, empleado.correo());
-        preparedStatement.setDate(6, new Date(empleado.fechaNacimiento().getTime()));
-        preparedStatement.setDouble(7, empleado.salario());*/
     private static final String SQL_UPDATE_EMPLEADO = "UPDATE empleado SET nombres = ?, apellido_pat = ?, apellido_mat = ?, id_departamento = ?, correo = ?, salario = ? WHERE id = ?;";
     private static final String SQL_DELETE_EMPLEADO = "UPDATE empleado set activo=0 WHERE id = ?;";
     private static final String SQL_INSERT_EMPLEADO = "INSERT INTO empleado (codigo_empleado, nombres, apellido_pat, apellido_mat, id_departamento, correo, fecha_nacimiento, salario) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -63,14 +56,12 @@ public class EmpleadoDao{
         return empleados;
     }
 
-
     public List<EmpleadoEntity> obtenerEmpleadosJPA () {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         var empleados = entityManager.createQuery(SQL_GET_ALL_EMPLEADOS_JPQL, EmpleadoEntity.class).getResultList();
         return empleados;
     }
-
 
     public void editarEmpleado (Empleado empleado) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = MySQLConnection.getConnection()
