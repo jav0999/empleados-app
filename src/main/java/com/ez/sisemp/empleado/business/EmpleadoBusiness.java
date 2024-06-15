@@ -120,8 +120,4 @@ public class EmpleadoBusiness {
             throw new IllegalArgumentException("El salario del empleado no puede ser negativo");
         }
     }
-
-   /*public void editarEmpelado(String username, String password) throws SQLException, ClassNotFoundException {
-        return usuarioDao.login(username, password);
-    }*/
 }

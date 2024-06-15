@@ -1,7 +1,11 @@
 package com.ez.sisemp.admin.dao;
 
+import com.ez.sisemp.admin.entity.UsuarioEntity;
 import com.ez.sisemp.admin.model.Usuario;
 import com.ez.sisemp.shared.config.MySQLConnection;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +17,11 @@ public class AdminDao {
 
     private static final String GET_ALL_USERS = "SELECT * FROM usuario";
 
+    private static final String SQL_GET_ALL_USERS_JPQL = """
+            Select e
+            from UsuarioEntity e
+            """;
+
     public List<Usuario> obtenerUsuarios() throws SQLException, ClassNotFoundException {
         List<Usuario> usuarios = new ArrayList<>();
         Statement stp = MySQLConnection.getConnection().createStatement();
@@ -23,6 +32,13 @@ public class AdminDao {
         return usuarios;
     }
 
+    public List<UsuarioEntity> obtenerUsuariosJPA()  {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        var usuarios = entityManager.createQuery(SQL_GET_ALL_USERS_JPQL, UsuarioEntity.class).getResultList();
+            return usuarios;
+        }
 
     public Usuario mapRow(ResultSet rs) throws SQLException {
 
@@ -46,7 +62,5 @@ public class AdminDao {
             rolDescripcion
         );
     }
-
-
 
 }

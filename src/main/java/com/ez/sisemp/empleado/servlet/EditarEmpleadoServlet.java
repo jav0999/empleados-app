@@ -37,7 +37,6 @@ public class EditarEmpleadoServlet extends HttpServlet {
 
         String id = req.getParameter("id");
         try {
-          //CODIGO PARA REDIRECCIONARLO A LOGIN
             HttpSession session = req.getSession();
 
             if(null!=session.getAttribute("user")){
@@ -48,10 +47,9 @@ public class EditarEmpleadoServlet extends HttpServlet {
                 resp.sendRedirect("/login/login.jsp");
                 return;
             }
-            //CODIGO PARA REDIRECCIONARLO A LOGIN
             loadDepartamentos(req);
             Empleado empleado = business.editar(id);
-            session.setAttribute("useredit", empleado);
+            session.setAttribute("empleadoedit", empleado);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -109,12 +107,10 @@ public class EditarEmpleadoServlet extends HttpServlet {
         request.getRequestDispatcher("/empleado/editar.jsp").forward(request, response);
     }
 
-
     private void handleEmailAlreadyInUseException(HttpServletRequest request, HttpServletResponse response, EmailAlreadyInUseException e) throws ServletException, IOException {
         loadDepartamentos(request);
         request.setAttribute("error", e.getMessage());
         request.getRequestDispatcher("/empleado/registrar.jsp").forward(request, response);
     }
-
 
 }

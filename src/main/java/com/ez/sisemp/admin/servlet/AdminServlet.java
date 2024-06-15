@@ -22,7 +22,10 @@ public class AdminServlet extends HttpServlet {
         }
         AdminDao dao = new AdminDao();
         try {
-            request.setAttribute("usuarios", dao.obtenerUsuarios());
+            //request.setAttribute("usuarios", dao.obtenerUsuarios());
+             request.setAttribute("usuarios", dao.obtenerUsuariosJPA());
+           // request.setAttribute("user", dao.obtenerAdminJPA());
+
             request.getRequestDispatcher(ADMIN_JSP).forward(request, response);
         } catch (Exception e) {
             throw new ServletException(e);

@@ -62,12 +62,9 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <li>
-                                <a href="login/cerrarSesion" class="mr-2 d-none d-lg-inline text-gray-600">Cerrar Sesion</a>  </li>
+                                <a href="login/cerrarSesion" class="mr-2 d-none d-lg-inline text-gray-600">Cerrar Sesion</a>
                             <span class="mr-2 d-none d-lg-inline text-gray-600">
-                                Holas! ${sessionScope.user.primerNombre()}
+                                Hola! ${sessionScope.user.primerNombre()}
                             </span>
 
                             <img class="img-profile rounded-circle" src=${sessionScope.user.fotoPerfilBase64()} style="width:65" alt="profile photo">
@@ -120,19 +117,19 @@
                         <tbody>
                         <c:forEach var="usuario" items="${usuarios}">
                             <tr>
-                                <td>${usuario.id()}</td>
-                                <td>${usuario.nombreUsuario()}</td>
-                                <td>${usuario.contrasena()}</td>
-                                <td>${usuario.utlimaConexion()}</td>
-                                <td>${usuario.estado()}</td>
-                                <td>${usuario.primerNombre()}</td>
-                                <td>${usuario.apellidoPat()}</td>
-                                <td>${usuario.rol()}</td>
-                                <td> <img src="${usuario.urlFoto()}" alt="url_foto" style="width: 3rem;height: 3rem"> </td>
+                                <td>${usuario.getId()}</td>
+                                <td>${usuario.getNombreUsuario()}</td>
+                                <td>${usuario.getContrasena()}</td>
+                                <td>${usuario.getUtlimaConexion()}</td>
+                                <td>${usuario.getEstado()}</td>
+                                <td>${usuario.getPrimerNombre()}</td>
+                                <td>${usuario.getApellidoPat()}</td>
+                                <td>${usuario.getRol()}</td>
+                                <td> <img src="${usuario.getUrlFoto()}" alt="url_foto" style="width: 3rem;height: 3rem"> </td>
                                 <td>
-                                    <a href="usuario/editar?id=${usuario.id()}">Editar</a>
+                                    <a href="usuario/editar?id=${usuario.getId()}">Editar</a>
                                     <form action="usuario/eliminar" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="${usuario.id()}">
+                                        <input type="hidden" name="id" value="${usuario.getId()}">
                                         <input type="submit" value="Eliminar" style="background:none;border:none;color:blue;">
                                     </form>
                                 </td>

@@ -1,6 +1,5 @@
 package com.ez.sisemp.empleado.dao;
 
-import com.ez.sisemp.empleado.config.JpaConfig;
 import com.ez.sisemp.empleado.entity.EmpleadoEntity;
 import com.ez.sisemp.empleado.model.Empleado;
 import com.ez.sisemp.shared.config.MySQLConnection;
@@ -39,13 +38,6 @@ public class EmpleadoDao{
             Select  e
             from EmpleadoEntity e
             """;
-  /*.setString(1, empleado.nombres());
-        preparedStatement.setString(2, empleado.apellidoPat());
-        preparedStatement.setString(3, empleado.apellidoMat());
-        preparedStatement.setInt(4, empleado.idDepartamento());
-        preparedStatement.setString(5, empleado.correo());
-        preparedStatement.setDate(6, new Date(empleado.fechaNacimiento().getTime()));
-        preparedStatement.setDouble(7, empleado.salario());*/
     private static final String SQL_UPDATE_EMPLEADO = "UPDATE empleado SET nombres = ?, apellido_pat = ?, apellido_mat = ?, id_departamento = ?, correo = ?, salario = ? WHERE id = ?;";
     private static final String SQL_DELETE_EMPLEADO = "UPDATE empleado set activo=0 WHERE id = ?;";
     private static final String SQL_INSERT_EMPLEADO = "INSERT INTO empleado (codigo_empleado, nombres, apellido_pat, apellido_mat, id_departamento, correo, fecha_nacimiento, salario) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -63,14 +55,12 @@ public class EmpleadoDao{
         return empleados;
     }
 
-
     public List<EmpleadoEntity> obtenerEmpleadosJPA () {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         var empleados = entityManager.createQuery(SQL_GET_ALL_EMPLEADOS_JPQL, EmpleadoEntity.class).getResultList();
         return empleados;
     }
-
 
     public void editarEmpleado (Empleado empleado) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = MySQLConnection.getConnection()
@@ -105,7 +95,6 @@ public class EmpleadoDao{
         preparedStatement.setDouble(8, empleado.salario());
         preparedStatement.executeUpdate();
     }
-
 
     private Empleado mapResultSetToEmpleado(ResultSet resultSet) throws SQLException {
         return new Empleado(resultSet.getInt("id"),
