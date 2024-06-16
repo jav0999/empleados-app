@@ -75,9 +75,9 @@
                     <li class="nav-item dropdown no-arrow">
                                 <a href="login/cerrarSesion" class="mr-2 d-none d-lg-inline text-gray-600">Cerrar Sesion</a>
                             <span class="mr-2 d-none d-lg-inline text-gray-600">
-                                Hola! ${sessionScope.user.primerNombre()}
+                                Hola! ${sessionScope.user.getPrimerNombre()}
                             </span>
-                            <img class="img-profile rounded-circle" src=${sessionScope.user.fotoPerfilBase64()} style="width:65" alt="profile photo">
+                            <img class="img-profile rounded-circle" src=${sessionScope.user.getUrlFoto()} style="width:65" alt="profile photo">
 
                         </a>
                         <!-- Dropdown - User Information -->

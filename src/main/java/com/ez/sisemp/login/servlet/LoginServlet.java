@@ -1,5 +1,6 @@
 package com.ez.sisemp.login.servlet;
 
+import com.ez.sisemp.admin.entity.UsuarioEntity;
 import com.ez.sisemp.login.business.UsuarioBusiness;
 import com.ez.sisemp.login.enumeration.Roles;
 import com.ez.sisemp.login.exception.UserOrPassIncorrectException;
@@ -27,11 +28,11 @@ public class LoginServlet extends HttpServlet {
         response.sendRedirect(LOGIN_JSP);
     }
 
-    @Override
+  /*  @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UsuarioBusiness business = new UsuarioBusiness();
         try {
-            Usuario usuario = business.login(request.getParameter("username"), request.getParameter("password"));
+            Usuario usuario = business.loginJPA(request.getParameter("username"), request.getParameter("password"));
             HttpSession session = request.getSession();
             session.setAttribute("user", usuario);
             if (usuario.rolId() == Roles.ADMIN.getId()) {
@@ -40,6 +41,30 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(Routes.EMPLEADO.getRoute());
             }
         }catch (UserOrPassIncorrectException e){
+            request.setAttribute("msj", ERROR_INCORRECT_CREDENTIALS);
+            request.setAttribute("detail", e.getMessage());
+            request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
+        }catch (Exception e) {
+            throw new ServletException(ERROR_SERVER, e);
+        }
+    }
+    */
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        UsuarioBusiness business = new UsuarioBusiness();
+        try {
+            UsuarioEntity usuarioEntity = business.loginJPA(request.getParameter("username"), request.getParameter("password"));
+            HttpSession session = request.getSession();
+            session.setAttribute("user", usuarioEntity);
+
+            if (Integer.valueOf(usuarioEntity.getRol()) == Roles.ADMIN.getId()) {
+
+                response.sendRedirect(Routes.ADMIN.getRoute());
+            }else {
+                response.sendRedirect(Routes.EMPLEADO.getRoute());
+            }
+        }catch (UserOrPassIncorrectException e){
+            System.out.println("ALA VERGA SE CAYO");
             request.setAttribute("msj", ERROR_INCORRECT_CREDENTIALS);
             request.setAttribute("detail", e.getMessage());
             request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
