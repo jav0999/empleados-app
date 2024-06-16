@@ -14,11 +14,9 @@ public class UsuarioBusiness {
     }
 
     public Usuario login(String username, String password) throws SQLException, ClassNotFoundException {
-
         return usuarioDao.login(username, password);
     }
-    public UsuarioEntity loginJPA(String username, String password) throws SQLException, ClassNotFoundException {
+    public UsuarioEntity loginJPA(String username, String password)  {
         return usuarioDao.loginJPA(username,password);
-        // return usuarioDao.login(username, password);
     }
 }

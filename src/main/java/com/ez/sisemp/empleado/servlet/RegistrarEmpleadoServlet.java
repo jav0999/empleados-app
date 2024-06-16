@@ -77,7 +77,6 @@ public class RegistrarEmpleadoServlet extends HttpServlet {
        }
    }
 
-
     private Empleado createEmpleadoFromRequest(HttpServletRequest request) throws ParseException {
         String strDate = request.getParameter("fechaNacimiento");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

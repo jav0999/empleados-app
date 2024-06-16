@@ -54,7 +54,7 @@ public class AdminDao {
             rs.getString("nombre_usuario"),
             rs.getString("contrasena"),
             rs.getString("contrasena_anterior"),
-            rs.getDate("ultima_conexion"),
+            rs.getString("ultima_conexion"),
             rs.getBoolean("active"),
             rs.getString("primer_nombre"),
             rs.getString("apellido_pat"),

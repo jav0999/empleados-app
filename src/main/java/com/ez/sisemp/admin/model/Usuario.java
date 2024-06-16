@@ -6,7 +6,8 @@ public record Usuario(Integer id,
                       String nombreUsuario,
                       String contrasena,
                       String contrasenaAnterior,
-                      Date utlimaConexion,
+                      //SEe cambio de date a string
+                      String utlimaConexion,
                       Boolean estado,
                       String primerNombre,
                       String apellidoPat,
@@ -14,7 +15,8 @@ public record Usuario(Integer id,
                       String rol
                         )
 {
-    public Usuario(String nombreUsuario, String contrasena, String contrasenaAnterior, Date utlimaConexion, Boolean estado, String primerNombre, String apellidoPat, String utlFoto, String rol){
+    public Usuario(String nombreUsuario, String contrasena, String contrasenaAnterior, String utlimaConexion, Boolean estado, String primerNombre, String apellidoPat, String utlFoto, String rol){
         this(null, nombreUsuario, contrasena, contrasenaAnterior, utlimaConexion, estado, primerNombre, apellidoPat, utlFoto, rol);
     }
+
 }

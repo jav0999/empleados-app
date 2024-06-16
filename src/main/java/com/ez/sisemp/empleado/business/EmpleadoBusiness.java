@@ -7,15 +7,14 @@ import com.ez.sisemp.empleado.exception.EmailAlreadyInUseException;
 import com.ez.sisemp.empleado.exception.EmpleadosNotFoundException;
 import com.ez.sisemp.empleado.model.Empleado;
 import com.ez.sisemp.empleado.model.EmpleadoDashboard;
-import com.ez.sisemp.login.model.Usuario;
 import com.ez.sisemp.parametro.dao.ParametroDao;
 import com.ez.sisemp.shared.utils.EdadUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class EmpleadoBusiness {
 
@@ -56,6 +55,10 @@ public class EmpleadoBusiness {
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
         empleadoDao.eliminarEmpleado(id);
     }
+    public void eliminarEmpleadoJPA(int id) throws SQLException, ClassNotFoundException {
+        empleadoDao.eliminarEmpleadoJpa(id);
+    }
+
 
     public List<Empleado> obtenerEmpleados() throws SQLException, ClassNotFoundException {
         var empleados = empleadoDao.obtenerEmpleados();
@@ -97,12 +100,20 @@ public class EmpleadoBusiness {
         );
     }
 
+    public EmpleadoDashboard obtenerDatosDashboardJPA() {
+        return empleadoDashboardDao.getJPA();
+    }
+
     public EmpleadoDashboard obtenerDatosDashboard() throws SQLException, ClassNotFoundException {
         return empleadoDashboardDao.get();
     }
 
     private String generarCodigoEmpleado(){
         return "EMP" + (int) (Math.random() * 1000000);
+    }
+
+    private EmpleadoEntity consultarEmpleadoById(Long id)  {
+        return empleadoDao.consultarEmpleadoById(id);
     }
 
     private void validarCampos (Empleado empleado){

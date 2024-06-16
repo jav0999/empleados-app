@@ -4,7 +4,6 @@ import com.ez.sisemp.admin.entity.UsuarioEntity;
 import com.ez.sisemp.login.business.UsuarioBusiness;
 import com.ez.sisemp.login.enumeration.Roles;
 import com.ez.sisemp.login.exception.UserOrPassIncorrectException;
-import com.ez.sisemp.login.model.Usuario;
 import com.ez.sisemp.shared.enums.Routes;
 
 import javax.servlet.ServletException;

@@ -6,6 +6,7 @@ import com.ez.sisemp.shared.config.MySQLConnection;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 
 import java.sql.Date;
@@ -33,16 +34,20 @@ public class EmpleadoDao{
     WHERE 
         e.activo = 1;
     """;
-
-    private static final String SQL_GET_ALL_EMPLEADOS_JPQL = """
-            Select  e
-            from EmpleadoEntity e
-            """;
     private static final String SQL_UPDATE_EMPLEADO = "UPDATE empleado SET nombres = ?, apellido_pat = ?, apellido_mat = ?, id_departamento = ?, correo = ?, salario = ? WHERE id = ?;";
     private static final String SQL_DELETE_EMPLEADO = "UPDATE empleado set activo=0 WHERE id = ?;";
     private static final String SQL_INSERT_EMPLEADO = "INSERT INTO empleado (codigo_empleado, nombres, apellido_pat, apellido_mat, id_departamento, correo, fecha_nacimiento, salario) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
     private static final String SQL_GET_NEW_EMPLEADO_CODE = "SELECT CONCAT('EMP', LPAD(MAX(CAST(SUBSTRING(codigo_empleado, 4) AS UNSIGNED)) + 1, 4, '0')) AS next_emp_code FROM empleado;";
+
+    private static final String SQL_GET_ALL_EMPLEADOS_JPA = """
+            Select  e
+            from EmpleadoEntity e
+            """;
+
+    private static final String SQL_DELETE_EMPLEADO_JPA = "UPDATE EmpleadoEntity e SET e.estado = 0 WHERE e.id = :id";
+
+
 
     public List<Empleado> obtenerEmpleados() throws SQLException, ClassNotFoundException {
         List<Empleado> empleados = new ArrayList<>();
@@ -58,7 +63,7 @@ public class EmpleadoDao{
     public List<EmpleadoEntity> obtenerEmpleadosJPA () {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        var empleados = entityManager.createQuery(SQL_GET_ALL_EMPLEADOS_JPQL, EmpleadoEntity.class).getResultList();
+        var empleados = entityManager.createQuery(SQL_GET_ALL_EMPLEADOS_JPA, EmpleadoEntity.class).getResultList();
         return empleados;
     }
 
@@ -81,7 +86,17 @@ public class EmpleadoDao{
         preparedStatement.setInt(1, id);
         preparedStatement.executeUpdate();
     }
+    public void eliminarEmpleadoJpa(int id) throws SQLException, ClassNotFoundException {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery(SQL_DELETE_EMPLEADO_JPA);
+        query.setParameter("id",id);
+        int rowsUpdated = query.executeUpdate();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
     public void agregarEmpleado(Empleado empleado) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = MySQLConnection.getConnection()
                                                 .prepareStatement(SQL_INSERT_EMPLEADO);
@@ -121,4 +136,28 @@ public class EmpleadoDao{
         }
     }
 
+    public EmpleadoEntity consultarEmpleadoById (long id) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            var empleado = entityManager.find(EmpleadoEntity.class, id);
+            return empleado;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public void editarEmpleadoJPA (EmpleadoEntity empleado) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(empleado);
+            entityManager.getTransaction().commit();
+        } finally {
+            entityManager.close();
+        }
+    }
 }
