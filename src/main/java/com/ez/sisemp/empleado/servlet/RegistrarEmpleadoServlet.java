@@ -1,6 +1,7 @@
 package com.ez.sisemp.empleado.servlet;
 
 import com.ez.sisemp.empleado.business.EmpleadoBusiness;
+import com.ez.sisemp.empleado.entity.EmpleadoEntity;
 import com.ez.sisemp.empleado.exception.EmailAlreadyInUseException;
 import com.ez.sisemp.empleado.model.Empleado;
 import com.ez.sisemp.parametro.dao.ParametroDao;
@@ -39,7 +40,7 @@ public class RegistrarEmpleadoServlet extends HttpServlet {
         request.getRequestDispatcher("/empleado/registrar.jsp").forward(request, response);
     }
 
-    @Override
+   /* @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (!SessionUtils.validarSesion(request, response)) {
             return;
@@ -56,7 +57,26 @@ public class RegistrarEmpleadoServlet extends HttpServlet {
         } catch (Exception e) {
             throw new ServletException(e);
         }
-    }
+    }*/
+   @Override
+   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+       if (!SessionUtils.validarSesion(request, response)) {
+           return;
+       }
+       try {
+           EmpleadoEntity empleadoEntity = createEmpleadoEntityFromRequest(request);
+           empleadoBusiness.registrarEmpleadoJpa(empleadoEntity);
+           request.setAttribute("msj", "Empleado registrado correctamente");
+           response.sendRedirect(Routes.EMPLEADO.getRoute());
+       } catch (ParseException e) {
+           handleParseException(request, response, e);
+       } catch (EmailAlreadyInUseException e){
+           handleEmailAlreadyInUseException(request, response, e);
+       } catch (Exception e) {
+           throw new ServletException(e);
+       }
+   }
+
 
     private Empleado createEmpleadoFromRequest(HttpServletRequest request) throws ParseException {
         String strDate = request.getParameter("fechaNacimiento");
@@ -88,5 +108,22 @@ public class RegistrarEmpleadoServlet extends HttpServlet {
     private void loadDepartamentos(HttpServletRequest request)  {
         List<Departamento> departamentos = parametroDao.obtenerDepartamentos();
         request.setAttribute("departamentos", departamentos);
+    }
+
+    private EmpleadoEntity createEmpleadoEntityFromRequest(HttpServletRequest request) throws ParseException {
+       String strDate = request.getParameter("fechaNacimiento");
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+       sdf.setLenient(false);
+
+       EmpleadoEntity empleadoEntity = new EmpleadoEntity();
+       empleadoEntity.setNombres(request.getParameter("nombres"));
+       empleadoEntity.setApellidoPat(request.getParameter("apellidoPat"));
+       empleadoEntity.setApellidoMat(request.getParameter("apellidoMat"));
+       empleadoEntity.setIdDepartamento(Integer.parseInt(request.getParameter("idDepartamento")));
+       empleadoEntity.setCorreo(request.getParameter("correo"));
+       empleadoEntity.setSalario(Double.parseDouble(request.getParameter("salario")));
+       empleadoEntity.setFechaNacimiento(sdf.parse(strDate));
+       empleadoEntity.setEstado(1);
+       return empleadoEntity;
     }
 }

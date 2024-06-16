@@ -25,6 +25,16 @@ public class EmpleadoEntity {
     double salario;
     @Column(name = "fecha_nacimiento")
     Date fechaNacimiento;
+    @Column(name="activo")
+    Integer estado;
+    public Integer getEstado() {
+        return estado;
+    }
+
+
+    public void setEstado(Integer estado) {
+        this.estado = estado;
+    }
 
     public Long getId() {
         return id;

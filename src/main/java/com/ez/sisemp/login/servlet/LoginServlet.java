@@ -64,7 +64,6 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(Routes.EMPLEADO.getRoute());
             }
         }catch (UserOrPassIncorrectException e){
-            System.out.println("ALA VERGA SE CAYO");
             request.setAttribute("msj", ERROR_INCORRECT_CREDENTIALS);
             request.setAttribute("detail", e.getMessage());
             request.getRequestDispatcher(LOGIN_JSP).forward(request, response);

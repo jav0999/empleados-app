@@ -108,5 +108,17 @@ public class EmpleadoDao{
         );
     }
 
+    public void agregarEmpleadoJPA (EmpleadoEntity empleado) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(empleado);
+            entityManager.getTransaction().commit();
+        } finally {
+                entityManager.close();
+        }
+    }
 
 }

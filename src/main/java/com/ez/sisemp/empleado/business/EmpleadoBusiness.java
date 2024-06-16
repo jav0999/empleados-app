@@ -38,6 +38,11 @@ public class EmpleadoBusiness {
             throw new EmailAlreadyInUseException(String.format("El correo %s ya se encuentra registrado", empleado.correo()));
         }
     }
+    public void registrarEmpleadoJpa(EmpleadoEntity empleadoEntity) {
+        empleadoEntity.setCodigoEmpleado(generarCodigoEmpleado());
+        empleadoDao.agregarEmpleadoJPA(empleadoEntity);
+    }
+
     public void editarEmpleado(Empleado empleado) throws SQLException, ClassNotFoundException {
         empleado = new Empleado(empleado.id(),empleado.codigoEmpleado(), empleado.nombres(), empleado.apellidoPat(), empleado.apellidoMat(), empleado.idDepartamento(), empleado.correo(), empleado.salario(), empleado.fechaNacimiento());
         validarCampos(empleado);
