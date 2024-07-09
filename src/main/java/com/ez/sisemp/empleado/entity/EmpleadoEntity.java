@@ -29,7 +29,6 @@ public class EmpleadoEntity {
         return estado;
     }
 
-
     public void setEstado(Integer estado) {
         this.estado = estado;
     }

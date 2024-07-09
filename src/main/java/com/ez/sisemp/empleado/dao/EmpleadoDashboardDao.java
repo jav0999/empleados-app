@@ -11,7 +11,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.List;
 
 public class EmpleadoDashboardDao {
@@ -21,11 +20,10 @@ public class EmpleadoDashboardDao {
     private static final String SQL_GET_MAYOR_SALARIO = "SELECT MAX(salario) FROM empleado";
     private static final String SQL_GET_TOTAL_DEPARTAMENTOS = "SELECT COUNT(DISTINCT id_departamento) FROM empleado"; //TODO
 
-    //JPQL
     private static final String GET_TOTAL_EMPLEADOS_JPA = "SELECT COUNT(e) FROM EmpleadoEntity e";
     private static final String GET_PROMEDIO_EDAD_JPA = "SELECT e.fechaNacimiento FROM EmpleadoEntity e";
     private static final String GET_MAYOR_SALARIO_JPA = "SELECT MAX(salario) FROM EmpleadoEntity e";
-    private static final String GET_TOTAL_DEPARTAMENTOS_JPA = "SELECT COUNT(DISTINCT e.idDepartamento) FROM EmpleadoEntity e"; //TODO
+    private static final String GET_TOTAL_DEPARTAMENTOS_JPA = "SELECT COUNT(DISTINCT e.idDepartamento) FROM EmpleadoEntity e";
 
 
     public EmpleadoDashboard get() throws SQLException, ClassNotFoundException {
@@ -79,12 +77,7 @@ public class EmpleadoDashboardDao {
         }
 
     }
-    public int calcularEdad(Date fechaNac) {
-        LocalDate nacimiento = fechaNac.toLocalDate();
-        LocalDate fechaactual = LocalDate.now();
-        Period period = Period.between(nacimiento,fechaactual);
-        return period.getYears();
-    }
+
     public double getMayorSalario() throws SQLException, ClassNotFoundException {
         var result = MySQLConnection.executeQuery(SQL_GET_MAYOR_SALARIO);
         result.next();
@@ -96,15 +89,20 @@ public class EmpleadoDashboardDao {
         return query.getSingleResult();
     }
 
-
-    public int getTotalDepartamentos() {
-        return 0;
-    }
-
     public Long getTotalDepartamentosJPA(EntityManager entityManager) {
         TypedQuery<Long> query = entityManager.createQuery(GET_TOTAL_DEPARTAMENTOS_JPA, Long.class);
         return query.getSingleResult();
     }
 
+    public int calcularEdad(Date fechaNac) {
+        LocalDate nacimiento = fechaNac.toLocalDate();
+        LocalDate fechaactual = LocalDate.now();
+        Period period = Period.between(nacimiento,fechaactual);
+        return period.getYears();
+    }
+
+    public int getTotalDepartamentos() {
+        return 0;
+    }
 
 }

@@ -17,7 +17,7 @@ public class AdminDao {
 
     private static final String GET_ALL_USERS = "SELECT * FROM usuario";
 
-    private static final String SQL_GET_ALL_USERS_JPQL = """
+    private static final String SQL_GET_ALL_USERS_JPA = """
             Select e
             from UsuarioEntity e
             """;
@@ -36,7 +36,7 @@ public class AdminDao {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        var usuarios = entityManager.createQuery(SQL_GET_ALL_USERS_JPQL, UsuarioEntity.class).getResultList();
+        var usuarios = entityManager.createQuery(SQL_GET_ALL_USERS_JPA, UsuarioEntity.class).getResultList();
             return usuarios;
         }
 

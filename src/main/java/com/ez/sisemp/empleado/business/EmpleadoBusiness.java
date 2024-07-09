@@ -52,6 +52,7 @@ public class EmpleadoBusiness {
         }
     }
 
+
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
         empleadoDao.eliminarEmpleado(id);
     }

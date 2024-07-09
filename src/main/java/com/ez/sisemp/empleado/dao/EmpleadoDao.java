@@ -86,7 +86,7 @@ public class EmpleadoDao{
         preparedStatement.setInt(1, id);
         preparedStatement.executeUpdate();
     }
-    public void eliminarEmpleadoJpa(int id) throws SQLException, ClassNotFoundException {
+    public void eliminarEmpleadoJpa(int id) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
